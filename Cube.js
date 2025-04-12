@@ -8,10 +8,11 @@ export class Cube extends Shape {
 
     generateShape() {
         this.points = []
-        for (let x = -24; x < 25; x++) {
-            for (let y = -24; y < 25; y++) {
-                for (let z = -24; z < 25; z++) {
-                    if (x == -24 || x == 24 || y == -24 || y == 24 || z == -24 || z == 24) {
+        const resolution = 50
+        for (let x = -resolution; x <= resolution; x++) {
+            for (let y = -resolution; y <= resolution; y++) {
+                for (let z = -resolution; z <= resolution; z++) {
+                    if (x == -resolution || x == resolution || y == -resolution || y == resolution || z == -resolution || z == resolution) {
                         let coords = [x,y,z,1]
                         this.points.push(coords)
                     }
