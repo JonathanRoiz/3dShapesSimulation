@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+    <head>
+        <div>
+            <p>rotateX</p>
+            <input id="inputX" type='range' min="0" max="360"></input>
+            <p>rotateY</p>
+            <input id="inputY" type='range' min="0" max="360"></input>
+            <p>rotateZ</p>
+            <input id="inputZ" type='range' min="0" max="360"></input>
+            <p>translateX</p>
+            <input id="translateX" type='range' min="-200" max="200"></input>
+            <p>translateY</p>
+            <input id="translateY" type='range' min="-200" max="200"></input>
+            <p>translateZ</p>
+            <input id="translateZ" type='range' min="-200" max="200"></input>
+            <p>scale</p>
+            <input id="scaleSlider" type='range' min=".5" max="100"></input>
+            <p>3rd Dimension</p>
+            <input id="zposition" type='range' min="-12" max="12"></input>
+        </div>
+        <center><canvas id="canvas"></canvas></center>
+        <style>
+            * {
+                margin: 0px;
+                padding: 0px;
+                overflow: hidden;
+            }
+            canvas {
+                background-color: grey;
+            }
+            input p {
+                position: relative;
+            }
+            div {
+                float: left;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="mathExtensions.js"></script>
+        <script src="Main.js" type="module"></script>
+    </body>
+</html>
