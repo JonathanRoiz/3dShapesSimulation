@@ -11,11 +11,18 @@ let cube = new Cube();
 
 // Performance monitoring
 const start = performance.now();
+let lastTime = performance.now();
 let numFrames = 0
 
 function mainLoop() {
+    const currentTime = performance.now();
+    const deltaTime = (currentTime - lastTime) / 1000; // Time elapsed since last frame in seconds
+    lastTime = currentTime;
+
     renderer.render(cube);
-    cube.rotate(.01,.01,.01);
+
+    const rotationSpeed = .5; // Rotations per second
+    cube.rotate(rotationSpeed * deltaTime,rotationSpeed * deltaTime,rotationSpeed * deltaTime);
     
     // Performance monitoring
     numFrames += 1
