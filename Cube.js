@@ -21,6 +21,6 @@ export class Cube extends Shape {
             }
         }
 
-        this.points = new Int8Array(this.points.flat());
+        this.points = new Int16Array(this.points.flat());
     }
 }

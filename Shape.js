@@ -9,7 +9,7 @@ export class Shape {
     }
 
     applyTransformation(matrix) {
-        const transformedPoints = new Int8Array(this.points.length);
+        const transformedPoints = new Int16Array(this.points.length);
 
         for (let i = 0; i < this.points.length; i+=4) {
             const x = this.points[i];
@@ -65,7 +65,7 @@ export class Shape {
 
             // Start Chatgpt code
             const pointCount = transformedPoints.length / 4;
-            const sortedPoints = new Int8Array(transformedPoints.length);
+            const sortedPoints = new Int16Array(transformedPoints.length);
 
             const indices = Array.from({ length: pointCount }, (_, i) => ({
                 z: transformedPoints[i * 4 + 2],
