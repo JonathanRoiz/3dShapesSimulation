@@ -9,6 +9,7 @@ export class Cube extends Shape {
     generateShape() {
         this.points = []
         const resolution = 50
+
         for (let x = -resolution; x <= resolution; x++) {
             for (let y = -resolution; y <= resolution; y++) {
                 for (let z = -resolution; z <= resolution; z++) {
