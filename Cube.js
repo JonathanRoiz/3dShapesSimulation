@@ -8,8 +8,8 @@ export class Cube extends Shape {
 
     generateShape() {
         this.points = []
+        const resolution = 50
 
-        const resolution = 24
         for (let x = -resolution; x <= resolution; x++) {
             for (let y = -resolution; y <= resolution; y++) {
                 for (let z = -resolution; z <= resolution; z++) {
@@ -20,5 +20,7 @@ export class Cube extends Shape {
                 }
             }
         }
+
+        this.points = new Int8Array(this.points.flat());
     }
 }
