@@ -9,13 +9,23 @@ export class Shape {
     }
 
     applyTransformation(matrix) {
-        let transformedPoints = [];
-        for (let i = 0; i < this.points.length; i++) {
-            let transformedx = (this.points[i][0] * matrix[0][0]) + (this.points[i][1] * matrix[0][1]) + (this.points[i][2] * matrix[0][2]) + (this.points[i][3] * matrix[0][3]);
-            let transformedy = (this.points[i][0] * matrix[1][0]) + (this.points[i][1] * matrix[1][1]) + (this.points[i][2] * matrix[1][2]) + (this.points[i][3] * matrix[1][3]);
-            let transformedz = (this.points[i][0] * matrix[2][0]) + (this.points[i][1] * matrix[2][1]) + (this.points[i][2] * matrix[2][2]) + (this.points[i][3] * matrix[2][3]);
-            let transformedw = (this.points[i][0] * matrix[3][0]) + (this.points[i][1] * matrix[3][1]) + (this.points[i][2] * matrix[3][2]) + (this.points[i][3] * matrix[3][3]);
-            transformedPoints[i] = [transformedx,transformedy,transformedz,transformedw];
+        const transformedPoints = new Int8Array(this.points.length);
+
+        for (let i = 0; i < this.points.length; i+=4) {
+            const x = this.points[i];
+            const y = this.points[i + 1];
+            const z = this.points[i + 2];
+            const w = this.points[i + 3];
+
+            let transformedx = (x * matrix[0][0]) + (y * matrix[0][1]) + (z * matrix[0][2]) + (w * matrix[0][3]);
+            let transformedy = (x * matrix[1][0]) + (y * matrix[1][1]) + (z * matrix[1][2]) + (w * matrix[1][3]);
+            let transformedz = (x * matrix[2][0]) + (y * matrix[2][1]) + (z * matrix[2][2]) + (w * matrix[2][3]);
+            let transformedw = (x * matrix[3][0]) + (y * matrix[3][1]) + (z * matrix[3][2]) + (w * matrix[3][3]);
+            
+            transformedPoints[i] = transformedx;
+            transformedPoints[i + 1] = transformedy;
+            transformedPoints[i + 2] = transformedz;
+            transformedPoints[i + 3] = transformedw;
         }
         return transformedPoints;
     }
@@ -51,11 +61,25 @@ export class Shape {
 
             const combinedTransformations = Math.combineTransformations([translation,zRotation,yRotation,xRotation]); // Apply scaling -> Rotation -> Translation. Written in the order of standard matrix math
             
-            let transformedPoints = this.applyTransformation(combinedTransformations);
+            const transformedPoints = this.applyTransformation(combinedTransformations);
 
-            transformedPoints.sort((a,b) => a[2]-b[2]);
+            // Start Chatgpt code
+            const pointCount = transformedPoints.length / 4;
+            const sortedPoints = new Int8Array(transformedPoints.length);
 
-            return transformedPoints;
+            const indices = Array.from({ length: pointCount }, (_, i) => ({
+                z: transformedPoints[i * 4 + 2],
+                index: i * 4,
+            })).sort((a, b) => a.z - b.z);
+
+            indices.forEach((entry, sortedIndex) => {
+                const baseIndex = entry.index;
+                sortedPoints.set(transformedPoints.slice(baseIndex, baseIndex + 4), sortedIndex * 4);
+            });
+            // End Chatgpt code
+            
+            this.cachedTransformedPoints = sortedPoints;
+            this.needsUpdate = false;
         }
         return this.cachedTransformedPoints;
     }

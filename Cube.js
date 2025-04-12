@@ -8,15 +8,17 @@ export class Cube extends Shape {
 
     generateShape() {
         this.points = []
-        for (let x = -12; x < 13; x++) {
-            for (let y = -12; y < 13; y++) {
-                for (let z = -12; z < 13; z++) {
-                    if (x == -12 || x == 12 || y == -12 || y == 12 || z == -12 || z == 12) {
+        for (let x = -24; x < 25; x++) {
+            for (let y = -24; y < 25; y++) {
+                for (let z = -24; z < 25; z++) {
+                    if (x == -24 || x == 24 || y == -24 || y == 24 || z == -24 || z == 24) {
                         let coords = [x,y,z,1]
                         this.points.push(coords)
                     }
                 }
             }
         }
+
+        this.points = new Int8Array(this.points.flat());
     }
 }
