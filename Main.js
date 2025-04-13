@@ -1,5 +1,9 @@
 import { Renderer } from "./Renderer.js";
 import { Cube } from "./Cube.js";
+import { Sphere } from "./Sphere.js";
+import { Torus } from "./Torus.js";
+import { Cylinder } from "./Cylinder.js";
+import { Pyramid } from "./Pyramid.js";
 
 const canvas = document.getElementById('canvas');
 
@@ -7,7 +11,6 @@ canvas.width = window.innerHeight;
 canvas.height = window.innerHeight;
 
 let renderer = new Renderer(canvas);
-let cube = new Cube();
 
 inputX.addEventListener('input', function(event) {
     rotationX = event.target.value * (Math.PI/180);
@@ -50,19 +53,34 @@ const start = performance.now();
 let lastTime = performance.now();
 let numFrames = 0
 
+const torus = new Torus();
+const cube = new Cube();
+const cylinder = new Cylinder();
+const pyramid = new Pyramid();
+
+const shapes = [torus,cube,cylinder,pyramid];
+
 function mainLoop() {
     const currentTime = performance.now();
-    const deltaTime = (currentTime - lastTime) / 1000; // Time elapsed since last frame in seconds
     lastTime = currentTime;
 
-    renderer.render(cube);
+    renderer.clear();
+    let xOffset = -125;
+    let yOffset = -125;
 
-    //const rotationSpeed = .5; // Rotations per second
-    //cube.rotate(rotationSpeed * deltaTime,rotationSpeed * deltaTime,rotationSpeed * deltaTime);
-    cube.setRotation(rotationX,rotationY,rotationZ);
-    cube.setPosition(xTranslation,yTranslation,zTranslation);
-    cube.setSize(scaleFactor);
+    for (let i = 0; i < shapes.length; i++) {
+        renderer.render(shapes[i]);
+        shapes[i].setRotation(rotationX,rotationY,rotationZ);
+        shapes[i].setPosition(xTranslation + xOffset,yTranslation + yOffset,zTranslation);
+        shapes[i].setSize(scaleFactor,scaleFactor,scaleFactor);
 
+        if (xOffset == -125) {
+            xOffset = 125;
+        } else {
+            xOffset = -125;
+            yOffset = 125;
+        }
+    };
     
     // Performance monitoring
     numFrames += 1
