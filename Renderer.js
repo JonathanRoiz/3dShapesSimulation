@@ -17,7 +17,7 @@ export class Renderer {
 
             let greyness = Math.clamp(z * .8,0,180);
             this.ctx.fillStyle = "rgb(" + greyness + "," + greyness + "," + greyness + ")";
-            this.ctx.fillRect(x+this.canvas.width/2,y+this.canvas.height/2,2,2);
+            this.ctx.fillRect(x+this.canvas.width/2,y+this.canvas.height/2,shape.scale.x*2,shape.scale.y*2);
         }
     }
 }

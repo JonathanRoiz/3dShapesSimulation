@@ -34,6 +34,15 @@ export class Shape {
         this.needsUpdate = true;
     }
 
+    setPosition(x,y,z) {
+        if (x != this.position.x || y != this.position.y || z != this.position.z) {
+            this.position.x = x;
+            this.position.y = y;
+            this.position.z = z;
+            this.needsUpdate = true;
+        }
+    }
+
     rotate(rotationX,rotationY,rotationZ) {
         this.rotation.x += rotationX;
         this.rotation.y += rotationY;
@@ -42,24 +51,32 @@ export class Shape {
     }
 
     setRotation(rotationX,rotationY,rotationZ) {
-        this.rotation.x = rotationX;
-        this.rotation.y = rotationY;
-        this.rotation.z = rotationZ;
-        this.needsUpdate = true;
+        if (rotationX != this.rotation.x || rotationY != this.rotation.y || rotationZ != this.rotation.z) {
+            this.rotation.x = rotationX;
+            this.rotation.y = rotationY;
+            this.rotation.z = rotationZ;
+            this.needsUpdate = true;
+        }
     }
 
-    scale(x,y,z) {
-        this.needsUpdate = true;
+    setSize(scaleX,scaleY,scaleZ) {
+        if (scaleX != this.scale.x || scaleY != this.rotation.y || scaleZ != this.rotation.z) {
+            this.scale.x = scaleX;
+            this.scale.y = scaleY;
+            this.scale.z = scaleZ;
+            this.needsUpdate = true;
+        }
     }
 
     getTransformedPoints() {
         if (!this.cachedTransformedPoints || this.needsUpdate) {
+            const scale = Math.createScalingMatrix(this.scale)
             const xRotation = Math.createXRotationMatrix(this.rotation.x);
             const yRotation = Math.createYRotationMatrix(this.rotation.y);
             const zRotation = Math.createZRotationMatrix(this.rotation.z);
             const translation = Math.createTranslationMatrix(this.position.x,this.position.y,this.position.z);
 
-            const combinedTransformations = Math.combineTransformations([translation,zRotation,yRotation,xRotation]); // Apply scaling -> Rotation -> Translation. Written in the order of standard matrix math
+            const combinedTransformations = Math.combineTransformations([translation,zRotation,yRotation,xRotation,scale]); // Apply scaling -> Rotation -> Translation. Written in the order of standard matrix math
             
             const transformedPoints = this.applyTransformation(combinedTransformations);
 
