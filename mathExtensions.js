@@ -32,6 +32,16 @@ Math.createZRotationMatrix = function(rotationZ) {
     return zRotation;
 };
 
+Math.createScalingMatrix = function(scale) {
+    const scaleMatrix = [
+        [scale.x,0,0,0],
+        [0,scale.y,0,0],
+        [0,0,scale.z,0],
+        [0,0,0,1]
+    ];
+    return scaleMatrix;
+}
+
 Math.createTranslationMatrix = function(x,y,z) {
     const translation = [
         [1,0,0,x],
