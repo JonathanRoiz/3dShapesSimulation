@@ -1,6 +1,6 @@
 import { Shape } from "./Shape.js";
 
-export class Cube extends Shape {
+export class Sphere extends Shape {
     constructor({x = 0,y = 0,z = 0,xRotation = 0,yRotation = 0,zRotation = 0,scale = 1} = {}) {
         super({x: x, y: y, z: z,xRotation: xRotation,yRotation: yRotation,zRotation: zRotation, width: scale, height: scale, depth: scale});
         this.generateShape()
@@ -8,15 +8,19 @@ export class Cube extends Shape {
 
     generateShape() {
         this.points = [];
-        const resolution = 40;
+        const resolution = 69;
+        const radius = 40;
 
-        for (let x = -resolution; x <= resolution; x++) {
-            for (let y = -resolution; y <= resolution; y++) {
-                for (let z = -resolution; z <= resolution; z++) {
-                    if (x == -resolution || x == resolution || y == -resolution || y == resolution || z == -resolution || z == resolution) {
-                        this.points.push([x,y,z,1]);
-                    }
-                }
+        for (let i = 0; i <= resolution; i++) {
+            const phi = Math.PI * i / resolution; // Latitude angle
+            for (let j = 0; j <= resolution * 2; j++) {
+                const theta = (2 * Math.PI * j) / (resolution * 2); // Longitude angle
+    
+                const x = radius * Math.sin(phi) * Math.cos(theta);
+                const y = radius * Math.sin(phi) * Math.sin(theta);
+                const z = radius * Math.cos(phi);
+    
+                this.points.push([x, y, z, 1]); // Homogeneous coordinates
             }
         }
 
